@@ -1,0 +1,215 @@
+#include <iostream> 
+using namespace std;
+#include<stdlib.h>
+struct node
+{
+	int data;
+	  node *link;
+};
+ int count=0;
+struct node *getnode()
+{
+	node *t=(struct node*)malloc(sizeof(struct node));
+		return t;
+}
+node *temp,*head=0;
+void create();
+void dis();
+void insertbeg();
+void insertend();
+void insertpos();
+void delete_begin();
+void deleteend();
+void deletepos();
+void  nonrec_reverse();
+void rec_reverse( struct node  *head);
+//void ao(); 
+
+int main()
+{
+ 	int c;
+	do{
+	cout<<"\n1:create 2:dis\n 3:insertbeg\n 4:insertend\n 5:insertpos\n 6:delete_begin\n7:deleteend\n8:deletepos\n 9:nonrec_reverse\n 10: rec_reverse\n 11:ascending_order\n Enter ur choice";
+	cin>>c;
+			switch(c)
+		{
+			case 1:create();
+			  break;
+	       	  case 2: dis();
+			  break;
+			 case 3:insertbeg();
+			      break;
+			  case 4:insertend();
+			       break;
+			 case 5:insertpos();
+			       break;                                                                                                                                                                                                            
+			  case 6:delete_begin();
+			      break;  
+			  case 7:deleteend();
+			      break;
+				case 8:deletepos();
+			       break;
+			  case 9:nonrec_reverse();
+			       break;
+			
+			 case 10:rec_reverse( head);
+			   // dis();
+			      break;
+		//	case 11:ao();
+			 //      break; 
+			
+			  default:printf("invalid choice");			
+		}
+	 }while(c!=0); 
+}
+void create ()
+{ 
+	int ch=1;
+	while(ch){
+	struct node *p=getnode();
+	cout<<"enter data";
+cin>>p->data;
+count++;
+p->link=0;	
+	if(head==0)
+	{
+	temp=head=p;
+	} 
+	else{
+		temp->link=p;
+		temp=p;
+	}
+	cout<<"Do u want to continue(0,1)?";
+	cin>>ch;
+	}
+}
+void dis()
+{
+	 temp=head;
+
+ while(temp!=NULL)
+{
+     cout<<temp->data<<"\t";
+	temp=temp->link;
+}
+cout<<"*******Count is******* "<<count;
+}
+void insertbeg(){	
+node *t=getnode();
+cout<<"Enter data at begin:";
+cin>>t->data;
+temp=head;//here head acts as temp now
+t->link=temp;//here we r udating t->link to temp(i.e head)
+head=t;//here we r assigning newnode as head
+count++;
+}
+void insertend(){
+	node *t=getnode();
+	cout<<"Enter data at end";
+	cin>>t->data;
+	count++;
+	t->link=0;
+	temp=head;
+	while(temp->link!=0){//here we need to traverse upto last node whose link!=0
+        temp=temp->link;
+	}
+	 temp->link=t;	
+}
+void insertpos(){
+int  pos,i=1;
+cout<<"Enter position:";
+cin>>pos;
+if(pos>count){
+	cout<<"Invalid position ";
+}
+else{
+temp=head;
+while(i<pos){
+	temp=temp->link;
+	i++;
+}
+node *p=getnode();
+cout<<"Enter  data at :";
+cin>>p->data;
+count++;
+p->link=temp->link;
+temp->link=p;
+}
+}
+void delete_begin(){
+	temp=head;
+	cout<<"Delete ele at begin is:"<<temp->data;
+	head=head->link;
+	count--;
+	free(temp);
+	     if(head->link==0)
+             {    
+		  head=0;
+         free(temp);
+		 }
+}
+void deleteend(){
+    temp=head;
+	node *r;
+	while(temp->link!=0){
+		r=temp; //here r is last before node after removing last node r becomes last node
+		temp=temp->link; 
+	}
+	if(head==temp){
+		head=0;
+	}
+	else{
+	r->link=0;
+	} 
+	cout<<"Delete ele at end is:"<<temp->data;
+count--;
+	free(temp);
+}
+void deletepos()
+{
+int  pos,i=1;
+cout<<"Enter position:";
+cin>>pos;
+if(pos>count){
+	cout<<"Invalid position ";
+}
+else{
+temp=head;
+node *t;
+//here  we take pos-1 because 
+while(i<pos-1){
+     temp=temp->link;
+	 i++;
+}
+t=temp->link;
+temp->link=t->link;
+cout<<"Deleted ele at posz:"<<t->data;
+count--;
+free(t);
+}
+}
+void nonrec_reverse()
+{
+	node *p=head,
+	     *q=NULL,
+		 *r=NULL;
+		 while(p)
+		 {
+			r=q;//r goes to q's place
+			q=p;//q goes to p's place
+			p=p->link;
+			q->link=r;
+		 }
+		 head=q;
+dis();
+}
+void rec_reverse( struct node *p){
+if(p->link==NULL){
+head=p;
+return ;
+}
+else{
+	rec_reverse(p->link);
+}
+dis();
+}
